@@ -1,7 +1,7 @@
 
 
 const FONTS = {
-  title: "SmoochSans-Bold",
+  title: "SedgwickAve-Regular",
   text: "Poppins-Regular",
   lightText: "Poppins-ExtraLight"
 }
