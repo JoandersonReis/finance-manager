@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather"
+import convertDate from "../../../utils/convertDate";
 
 import styles from "./styles";
 
@@ -19,7 +20,7 @@ const Debt = ({ name, date, value }: IDebt) => {
         <Text style={styles.value}>-{value}</Text>
       </View>
 
-      <Text style={styles.date}>{date}</Text>
+      <Text style={styles.date}>{convertDate(date)}</Text>
 
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.editButton}>

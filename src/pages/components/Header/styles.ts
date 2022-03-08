@@ -9,6 +9,12 @@ export default StyleSheet.create({
     marginBottom: 8
   },
 
+  balanceContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+
+  },
+
   topBar: {
     flexDirection: "row",
     alignItems: "center",
@@ -19,7 +25,8 @@ export default StyleSheet.create({
     color: "#fff",
     fontFamily: FONTS.title,
     fontWeight: "600",
-    fontSize: 22
+    fontSize: 22,
+    marginLeft: 12
   },
 
   realSign: {
