@@ -13,7 +13,8 @@ interface IDebtsContextData {
   create: (name: string, value: number, date: string) => void,
   setBalanceValue: (value: number) => void,
   balanceValue: number,
-  deleteDebt: (name: string) => void
+  deleteDebt: (name: string) => void,
+  updateDebt: (name: string, date: string, value: number) => void
 }
 
 interface IDebtsPovider {
@@ -26,9 +27,11 @@ function DebtsProvider({ children }: IDebtsPovider) {
 
   const [ balanceValue, setBalanceValue ] = useState<number>(0)
   const [ debts, setDebts ] = useState<IDebt[]>([])
+  const [ debtsValue, setDebtsValue ] = useState(0)
   const debtsStore = async (value: IDebt[]) => {
     await AsyncStorage.setItem('@debts', JSON.stringify(value))
   }
+
 
   async function loadDebts() {
     const debtsStorage = await AsyncStorage.getItem("@debt")
@@ -36,25 +39,55 @@ function DebtsProvider({ children }: IDebtsPovider) {
     if(debtsStorage) {
       setDebts(JSON.parse(debtsStorage))
 
-      let valueBalanceCurrent = balanceValue
+      let debtsValueCurrency = debtsValue
       
       JSON.parse(debtsStorage).forEach((item: IDebt) => {
-        valueBalanceCurrent = item.value + valueBalanceCurrent
+        debtsValueCurrency = debtsValueCurrency + item.value
       })
       
-      setBalanceValue(valueBalanceCurrent)
+      setDebtsValue(debtsValueCurrency)
     }
   }
   
-  function sumBalance() {
-    let valueBalanceCurrent = balanceValue
+  function sumDebts() {
+    let valueDebtsCurrency = debtsValue
 
     debts.forEach(item => {
-      valueBalanceCurrent = item.value + valueBalanceCurrent
+      valueDebtsCurrency = item.value + valueDebtsCurrency
     })
 
-    setBalanceValue(valueBalanceCurrent)
+    setDebtsValue(valueDebtsCurrency)
+  }
+  
+  
+  function create(name: string, value: number, date: string) {
+    setDebts([...debts, {name, value, date}])
+    
+    debtsStore(debts)
+    sumDebts()
+  }
 
+  function deleteDebt(name: string) {
+    const debtsFiltered = debts.filter(item => item.name != name)
+    
+    setDebts(debtsFiltered)
+    debtsStore(debtsFiltered)
+    sumDebts()
+  }
+
+
+  function updateDebt(name: string, date: string, value: number) {
+    const debtsFiltered = debts.filter(item => item.name != name)
+
+    const debtUpdated = {
+      name,
+      date,
+      value
+    }
+
+    setDebts([...debts, debtUpdated])
+    debtsStore(debtsFiltered)
+    sumDebts()
   }
 
 
@@ -62,29 +95,14 @@ function DebtsProvider({ children }: IDebtsPovider) {
     loadDebts()
   }, [])
 
-
-  function create(name: string, value: number, date: string) {
-    setDebts([...debts, {name, value, date}])
-
-    debtsStore(debts)
-    sumBalance()
-  }
-
-  function deleteDebt(name: string) {
-    const debtsFiltered = debts.filter(item => item.name != name)
-
-    setDebts(debtsFiltered)
-    debtsStore(debtsFiltered)
-    sumBalance()
-  }
-
   return (
     <DebtsContext.Provider value={{
       debts,
       create,
       setBalanceValue,
       deleteDebt,
-      balanceValue
+      balanceValue,
+      updateDebt
     }}>
       {children}
     </DebtsContext.Provider>

@@ -1,18 +1,22 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Icon from "react-native-vector-icons/Feather"
-import { ScrollView, Text, TouchableHighlight, TouchableOpacity, View } from "react-native"
+import { ScrollView, TouchableOpacity, View } from "react-native"
 
 import Debt from "../components/Debt"
 import Header from "../components/Header"
 
 import styles from "./styles"
-import convertDate from "../../utils/convertDate"
+import ChangeBalanceModal from "../components/ChangeBalanceModal"
 
 const HomeScreen = () => {
+
+  const [ isBalanceModal, setIsBalanceModal ] = useState(true)
 
   return (
     <View style={styles.container}>
       <Header title="Gerencie seus gastos e economize seu dinheiro" />
+
+      <ChangeBalanceModal />
       
       <ScrollView style={styles.debtsContainer}>
         <Debt name="Aluguel" date="2022-03-10T17:98" value="400,00"/>
