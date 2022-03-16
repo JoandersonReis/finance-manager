@@ -11,14 +11,27 @@ export default StyleSheet.create({
 
   balanceContainer: {
     flexDirection: "row",
-    alignItems: "center",
 
+  },
+
+  showBalanceButton: {
+    marginTop: 12
   },
 
   topBar: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+
+  balanceButton: {
+    flexDirection: "column",
+  },
+
+  balanceButtonDebtsText: {
+    alignSelf: "flex-end",
+    color: COLORS.red,
+    fontFamily: FONTS.lightText
   },
 
   money: {

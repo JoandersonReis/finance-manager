@@ -5,16 +5,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 interface IDebt {
   name: string,
   value: number,
-  date: string
+  date: string|Date
 }
 
 interface IDebtsContextData {
   debts: IDebt[] | undefined,
-  create: (name: string, value: number, date: string) => void,
-  setBalanceValue: (value: number) => void,
+  create: (name: string, value: number, date: Date|string) => void,
+  setBalanceCurrentValue: (value: number) => void,
   balanceValue: number,
-  deleteDebt: (name: string) => void,
-  updateDebt: (name: string, date: string, value: number) => void
+  deleteDebt: (name: string, date: string) => void,
+  updateDebt: (name: string, date: string|Date, value: number) => void,
+  debtsValue: number
 }
 
 interface IDebtsPovider {
@@ -31,15 +32,19 @@ function DebtsProvider({ children }: IDebtsPovider) {
   const debtsStore = async (value: IDebt[]) => {
     await AsyncStorage.setItem('@debts', JSON.stringify(value))
   }
+  const balanceStore = async (value: number) => {
+    await AsyncStorage.setItem('@balance', String(value))
+  }
 
 
   async function loadDebts() {
-    const debtsStorage = await AsyncStorage.getItem("@debt")
+    const debtsStorage = await AsyncStorage.getItem("@debts")
+    const balanceStorage = await AsyncStorage.getItem("@balance")
 
     if(debtsStorage) {
       setDebts(JSON.parse(debtsStorage))
 
-      let debtsValueCurrency = debtsValue
+      let debtsValueCurrency = 0
       
       JSON.parse(debtsStorage).forEach((item: IDebt) => {
         debtsValueCurrency = debtsValueCurrency + item.value
@@ -47,10 +52,20 @@ function DebtsProvider({ children }: IDebtsPovider) {
       
       setDebtsValue(debtsValueCurrency)
     }
+
+    if(balanceStorage) {
+      setBalanceValue(Number(balanceStorage))
+    }
+  }
+
+  function setBalanceCurrentValue(value: number) {
+    setBalanceValue(value)
+
+    balanceStore(value)
   }
   
   function sumDebts() {
-    let valueDebtsCurrency = debtsValue
+    let valueDebtsCurrency = 0
 
     debts.forEach(item => {
       valueDebtsCurrency = item.value + valueDebtsCurrency
@@ -60,24 +75,22 @@ function DebtsProvider({ children }: IDebtsPovider) {
   }
   
   
-  function create(name: string, value: number, date: string) {
-    setDebts([...debts, {name, value, date}])
+  function create(name: string, value: number, date: string|Date) {
+    setDebts([{name, value, date}, ...debts])
     
-    debtsStore(debts)
-    sumDebts()
+    debtsStore([{name, value, date}, ...debts])
   }
 
-  function deleteDebt(name: string) {
-    const debtsFiltered = debts.filter(item => item.name != name)
+  function deleteDebt(name: string, date: string) {
+    const debtsFiltered = debts.filter(item => item.name != name && item.date != date)
     
     setDebts(debtsFiltered)
     debtsStore(debtsFiltered)
-    sumDebts()
   }
 
 
-  function updateDebt(name: string, date: string, value: number) {
-    const debtsFiltered = debts.filter(item => item.name != name)
+  function updateDebt(name: string, date: string|Date, value: number) {
+    const debtsFiltered = debts.filter(item => item.name != name && item.date != date)
 
     const debtUpdated = {
       name,
@@ -85,9 +98,8 @@ function DebtsProvider({ children }: IDebtsPovider) {
       value
     }
 
-    setDebts([...debts, debtUpdated])
-    debtsStore(debtsFiltered)
-    sumDebts()
+    setDebts([debtUpdated, ...debtsFiltered])
+    debtsStore([debtUpdated, ...debtsFiltered])
   }
 
 
@@ -95,14 +107,19 @@ function DebtsProvider({ children }: IDebtsPovider) {
     loadDebts()
   }, [])
 
+  useEffect(() => {
+    sumDebts()
+  }, [debts])
+
   return (
     <DebtsContext.Provider value={{
       debts,
       create,
-      setBalanceValue,
+      setBalanceCurrentValue,
       deleteDebt,
       balanceValue,
-      updateDebt
+      updateDebt,
+      debtsValue
     }}>
       {children}
     </DebtsContext.Provider>

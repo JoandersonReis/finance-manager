@@ -5,16 +5,18 @@ import Icon from "react-native-vector-icons/Feather"
 
 import LogoImage from "../../../../assets/images/logo.png"
 import { COLORS } from "../../../config";
+import { useDebts } from "../../../contexts/debtsContext";
 import styles from "./styles";
 
 
 interface HeaderProps {
-  title: string
+  title: string,
+  setIsBalanceModal: (actived: boolean) => void
 }
 
-const Header = ({ title }: HeaderProps) => {
+const Header = ({ title, setIsBalanceModal }: HeaderProps) => {
   const [ isShowBalance, setIsShowBalance ] = useState(false)
-  const [ balance, setBalance ] = useState("1.200,00")
+  const { balanceValue, debtsValue } = useDebts()
 
   function handleShowBalance() {
     isShowBalance? setIsShowBalance(false):setIsShowBalance(true)
@@ -25,18 +27,22 @@ const Header = ({ title }: HeaderProps) => {
       <View style={styles.topBar}>
         <Image source={LogoImage} />
         <View style={styles.balanceContainer}>
-          <TouchableOpacity onPress={handleShowBalance}>
+          <TouchableOpacity style={styles.showBalanceButton} onPress={handleShowBalance}>
             {isShowBalance? 
               <Icon name="eye-off" color={COLORS.primary} size={18} />
               :
               <Icon name="eye" color={COLORS.primary} size={18} />
             }
           </TouchableOpacity>
-          <Text 
-            style={isShowBalance? styles.money:[styles.money, {color: COLORS.lightGray}]}
-          >
-            <Text style={styles.realSign}>R$</Text> {isShowBalance? balance: "••••••"}
-          </Text>
+          <TouchableOpacity style={styles.balanceButton} onPress={() => setIsBalanceModal(true)}>
+            <Text 
+              style={isShowBalance? styles.money:[styles.money, {color: COLORS.lightGray}]}
+            >
+              <Text style={styles.realSign}>R$</Text> {isShowBalance? balanceValue: "••••••"}
+            </Text>
+
+            <Text style={styles.balanceButtonDebtsText}>-{debtsValue?.toFixed(2)}</Text>
+          </TouchableOpacity>
         </View>
       </View>
 

@@ -8,6 +8,15 @@ export default StyleSheet.create({
     position: "relative"
   },
 
+  noDebtsText: {
+    fontSize: 22,
+    color: COLORS.primary,
+    fontFamily: FONTS.text,
+    alignSelf: "center",
+    marginTop: 60,
+    textAlign: "center"
+  },
+
   title: {
     fontFamily: FONTS.title,
   },
