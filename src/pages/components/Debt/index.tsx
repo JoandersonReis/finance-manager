@@ -1,4 +1,4 @@
-import React, { useDebugValue } from "react";
+import React from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Feather"
 import { useDebts } from "../../../contexts/debtsContext";

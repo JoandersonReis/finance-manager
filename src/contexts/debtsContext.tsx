@@ -76,9 +76,11 @@ function DebtsProvider({ children }: IDebtsPovider) {
   
   
   function create(name: string, value: number, date: string|Date) {
+
     setDebts([{name, value, date}, ...debts])
     
     debtsStore([{name, value, date}, ...debts])
+    loadDebts()
   }
 
   function deleteDebt(name: string, date: string) {
@@ -100,6 +102,7 @@ function DebtsProvider({ children }: IDebtsPovider) {
 
     setDebts([debtUpdated, ...debtsFiltered])
     debtsStore([debtUpdated, ...debtsFiltered])
+    loadDebts()
   }
 
 
