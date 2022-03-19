@@ -47,6 +47,7 @@ const UpdateDebtModal = ({ setIsUpdateModal, nameDebt, valueDebt }: IModal) => {
           date={date}
           androidVariant="nativeAndroid"
           mode="date"
+          textColor="#fff"
         />
 
         <Text style={styles.inputLabel}>Valor</Text>

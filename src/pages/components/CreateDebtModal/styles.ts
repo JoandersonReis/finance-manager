@@ -41,8 +41,8 @@ export default StyleSheet.create({
   input: {
     height: 50,
     width: 250,
-    backgroundColor: "#999",
     color: "#000",
+    backgroundColor: "#fff",
     borderRadius: 8,
     marginBottom: 22,
     marginTop: 4
@@ -58,6 +58,7 @@ export default StyleSheet.create({
 
   createDebtButtonText: {
     fontFamily: FONTS.text,
-    fontSize: 16
+    fontSize: 16,
+    color: "#fff"
   }
 })

@@ -15,7 +15,9 @@ interface IDebtsContextData {
   balanceValue: number,
   deleteDebt: (name: string, date: string) => void,
   updateDebt: (name: string, date: string|Date, value: number) => void,
-  debtsValue: number
+  debtsValue: number,
+  handleShowBalance: () => void,
+  isShowBalance: boolean
 }
 
 interface IDebtsPovider {
@@ -29,11 +31,17 @@ function DebtsProvider({ children }: IDebtsPovider) {
   const [ balanceValue, setBalanceValue ] = useState<number>(0)
   const [ debts, setDebts ] = useState<IDebt[]>([])
   const [ debtsValue, setDebtsValue ] = useState(0)
+  const [ isShowBalance, setIsShowBalance ] = useState(false)
+
   const debtsStore = async (value: IDebt[]) => {
     await AsyncStorage.setItem('@debts', JSON.stringify(value))
   }
   const balanceStore = async (value: number) => {
     await AsyncStorage.setItem('@balance', String(value))
+  }
+
+  function handleShowBalance() {
+    isShowBalance? setIsShowBalance(false):setIsShowBalance(true)
   }
 
 
@@ -122,7 +130,9 @@ function DebtsProvider({ children }: IDebtsPovider) {
       deleteDebt,
       balanceValue,
       updateDebt,
-      debtsValue
+      debtsValue,
+      handleShowBalance,
+      isShowBalance
     }}>
       {children}
     </DebtsContext.Provider>

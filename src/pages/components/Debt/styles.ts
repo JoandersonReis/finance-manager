@@ -16,7 +16,8 @@ export default StyleSheet.create({
 
   name: {
     fontSize: 22,
-    fontFamily: FONTS.text
+    fontFamily: FONTS.text,
+    color: "#fff"
   },
 
   value: {
@@ -29,7 +30,8 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: FONTS.text,
     fontStyle: "italic",
-    alignSelf: "center"
+    alignSelf: "center",
+    color: COLORS.lightGray
   },
 
   buttonsContainer: {

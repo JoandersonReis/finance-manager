@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather"
 
@@ -15,11 +15,17 @@ interface HeaderProps {
 }
 
 const Header = ({ title, setIsBalanceModal }: HeaderProps) => {
-  const [ isShowBalance, setIsShowBalance ] = useState(false)
-  const { balanceValue, debtsValue } = useDebts()
+  const { balanceValue, debtsValue, isShowBalance, handleShowBalance } = useDebts()
 
-  function handleShowBalance() {
-    isShowBalance? setIsShowBalance(false):setIsShowBalance(true)
+
+  function sumCurrentMoney() {
+    const sum = Number(balanceValue) - Number(debtsValue)
+
+    if(sum < 0) {
+      return `${sum.toFixed(2)}`
+    } else {
+      return `+${sum.toFixed(2)}`
+    }
   }
 
   return (
@@ -41,7 +47,12 @@ const Header = ({ title, setIsBalanceModal }: HeaderProps) => {
               <Text style={styles.realSign}>R$</Text> {isShowBalance? balanceValue: "••••••"}
             </Text>
 
-            <Text style={styles.balanceButtonDebtsText}>-{debtsValue?.toFixed(2)}</Text>
+            {isShowBalance &&
+              <>
+                <Text style={styles.balanceButtonDebtsText}>-{debtsValue?.toFixed(2)}</Text>
+                <Text style={styles.balanceButtonCurrentMoneyText}>{sumCurrentMoney()}</Text>
+              </>
+            }
           </TouchableOpacity>
         </View>
       </View>

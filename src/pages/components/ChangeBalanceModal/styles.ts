@@ -32,13 +32,14 @@ export default StyleSheet.create({
 
   inputLabel: {
     fontFamily: FONTS.title,
-    fontSize: 18
+    fontSize: 18,
+    color: "#fff"
   },
 
   input: {
     height: 50,
     width: 200,
-    backgroundColor: "#999",
+    backgroundColor: "#fff",
     color: "#000",
     borderRadius: 8,
     marginBottom: 22,
@@ -55,6 +56,7 @@ export default StyleSheet.create({
 
   changeBalanceButtonText: {
     fontFamily: FONTS.text,
-    fontSize: 16
+    fontSize: 16,
+    color: "#fff"
   }
 })

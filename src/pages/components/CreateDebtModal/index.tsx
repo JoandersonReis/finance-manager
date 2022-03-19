@@ -45,7 +45,9 @@ const CreateDebtModal = ({ setIsCreateDebtsModal }: IModal) => {
           date={date}
           androidVariant="nativeAndroid"
           mode="date"
+          textColor="#fff"
         />
+
 
         <Text style={styles.inputLabel}>Valor</Text>
         <TextInput 

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react"
 import Icon from "react-native-vector-icons/Feather"
-import { ScrollView, Text, TouchableOpacity, View } from "react-native"
+import { Alert, Platform, ScrollView, Text, TouchableOpacity, View } from "react-native"
 
-import Debt from "../components/Debt"
-import Header from "../components/Header"
-
-import styles from "./styles"
-import ChangeBalanceModal from "../components/ChangeBalanceModal"
 import { useDebts } from "../../contexts/debtsContext"
+import Debt from "../components/Debt"
+import ChangeBalanceModal from "../components/ChangeBalanceModal"
+import Header from "../components/Header"
 import CreateDebtModal from "../components/CreateDebtModal"
 import UpdateDebtModal from "../components/UpdateDebtModal"
+import styles from "./styles"
+
+
 
 const HomeScreen = () => {
 
@@ -18,10 +19,8 @@ const HomeScreen = () => {
   const { debts } = useDebts()
 
   const [ nameSelected, setNameSelected ] = useState("")
-  const [ dateSelected, setDateSelected ] = useState<Date>(new Date())
   const [ valueSelected, setValueSelected ] = useState(0)
   const [ isUpdateDebtModal, setIsUpdateDebtModal ] = useState(false)
-  
 
   return (
     <View style={styles.container}>

@@ -22,7 +22,7 @@ interface ICoinInfo {
 
 
 const Coin = ({ color, type, coinName }: ICoin) => {
-  const [ coinInfo, setCoinInfo ] = useState<ICoinInfo>()
+  const [ coinInfo, setCoinInfo ] = useState<ICoinInfo>({ticker: {high: "0", low: "0", last: "0"}})
   
   async function loadCoinInfo() {
     const result = await axios.get(`https://www.mercadobitcoin.net/api/${type}/ticker`)
@@ -46,6 +46,8 @@ const Coin = ({ color, type, coinName }: ICoin) => {
   }
   
   useEffect(() => {
+    loadCoinInfo()
+
     setInterval(() => {
       loadCoinInfo()
     }, 5000)

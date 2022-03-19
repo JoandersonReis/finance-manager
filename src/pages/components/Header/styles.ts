@@ -34,6 +34,12 @@ export default StyleSheet.create({
     fontFamily: FONTS.lightText
   },
 
+  balanceButtonCurrentMoneyText: {
+    alignSelf: "flex-end",
+    color: COLORS.green,
+    fontFamily: FONTS.lightText
+  },
+
   money: {
     color: "#fff",
     fontFamily: FONTS.title,
@@ -48,7 +54,7 @@ export default StyleSheet.create({
   },
 
   title: {
-    fontSize: 24,
+    fontSize: 18,
     marginTop: 22,
     textAlign: "center",
     fontFamily: FONTS.text,
